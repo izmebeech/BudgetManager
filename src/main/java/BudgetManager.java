@@ -13,5 +13,22 @@ public class BudgetManager {
         );
         repository.add(transaction);
 
+        Transaction salary = new Transaction(
+                LocalDate.now(),
+                "Salary",
+                53000,
+                TransactionType.INCOME
+        );
+
+        repository.add(salary);
+
+        IO.println(repository.findAll());
+
+
+        IO.println(repository.findWhere(t ->
+                transaction.type() == TransactionType.SPENDING
+        ));
+
+
     }
 }
