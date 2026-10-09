@@ -1,4 +1,5 @@
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class BudgetManager {
 
@@ -6,7 +7,7 @@ public class BudgetManager {
         Repository<Transaction> repository = new Repository<>();
 
         Transaction transaction = new Transaction(
-                LocalDate.now(),
+                LocalDateTime.now(),
                 "Phone bill",
                 399,
                 TransactionType.SPENDING
@@ -14,7 +15,7 @@ public class BudgetManager {
         repository.add(transaction);
 
         Transaction salary = new Transaction(
-                LocalDate.now(),
+                LocalDateTime.now(),
                 "Salary",
                 53000,
                 TransactionType.INCOME

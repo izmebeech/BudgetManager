@@ -1,3 +1,5 @@
+/BudgetManager/.git.backup/
+/BudgetManager/.gitattributes
 target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/

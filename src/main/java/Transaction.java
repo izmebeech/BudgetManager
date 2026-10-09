@@ -1,7 +1,8 @@
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public record Transaction(
-        LocalDate date,
+        LocalDateTime date,
         String category,
         double amount,
         TransactionType type

@@ -17,7 +17,7 @@ public class Repository<T> {
         return items;
     }
     public List <T> findWhere(Predicate<T> condition){     //when called, will give back a List<T>. So if were calling
-        return items.stream()                       //transactions, it will become List<transaction>findWhere
+        return items.stream()                        //transactions, it will become List<transaction>findWhere
                 .filter(condition)                  // predicate answers y/n, true/false,
                 .toList();                  // stream takes items in list and lets us process them individually
                                         //filter(condition) uses predicate to clear out false objects from stream
