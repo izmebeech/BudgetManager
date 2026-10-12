@@ -13,7 +13,7 @@ class RepositoryTest {
                 LocalDateTime.of(2026,10,9,14,35),
                 "Phone bill",
                 399,
-                TransactionType.SPENDING);
+                TransactionType.EXPENSE);
 
         repository.add(transaction);
         List<Transaction> transactions = repository.findAll();
@@ -31,7 +31,7 @@ class RepositoryTest {
                 LocalDateTime.of(2026,10,9,14,35),
                 "Phone bill",
                 399,
-                TransactionType.SPENDING);
+                TransactionType.EXPENSE);
 
         Transaction salary = new Transaction(
                 LocalDateTime.of(2026, 10, 9, 15, 0),
@@ -43,7 +43,7 @@ class RepositoryTest {
         repository.add(phoneBill);
 
         List<Transaction> result = repository.findWhere(
-                t -> t.type() == TransactionType.SPENDING);
+                t -> t.type() == TransactionType.EXPENSE);
         assertEquals(1, result.size());  //the filtered list must contain exactly one item
         assertEquals(phoneBill, result.get(0));   // said item must be the phone bill
     }

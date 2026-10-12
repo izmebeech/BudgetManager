@@ -1,4 +1,4 @@
 public enum TransactionType {
     INCOME,
-    SPENDING
+    EXPENSE
 }

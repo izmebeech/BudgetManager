@@ -19,7 +19,7 @@ public class Calculator {
 
     public double calculateTotalSpending() {
         return repository.findAll().stream()
-                .filter(t -> t.type() == TransactionType.SPENDING)
+                .filter(t -> t.type() == TransactionType.EXPENSE)
                 .mapToDouble(Transaction::amount)
                 .sum();
     }

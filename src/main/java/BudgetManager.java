@@ -1,4 +1,3 @@
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class BudgetManager {
@@ -10,7 +9,7 @@ public class BudgetManager {
                 LocalDateTime.now(),
                 "Phone bill",
                 399,
-                TransactionType.SPENDING
+                TransactionType.EXPENSE
         );
         repository.add(transaction);
 
@@ -27,7 +26,7 @@ public class BudgetManager {
 
 
         IO.println(repository.findWhere(t ->
-                transaction.type() == TransactionType.SPENDING
+                transaction.type() == TransactionType.EXPENSE
         ));
 
 
