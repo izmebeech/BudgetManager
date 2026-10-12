@@ -15,4 +15,14 @@ class TransactionTest {
             );
         });
         }
+
+    @Test
+    void transactionInvalidIfZero() {
+        LocalDateTime date = LocalDateTime.now();
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Transaction(
+                    date, "Swish", 0, TransactionType.EXPENSE
+            );
+        });
+    }
 }
