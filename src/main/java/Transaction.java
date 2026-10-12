@@ -1,4 +1,3 @@
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public record Transaction(
@@ -7,4 +6,11 @@ public record Transaction(
         double amount,
         TransactionType type
 ) {
+
+    //Make sure a transaction cant be 0 or below.
+    public Transaction {
+        if (amount <= 0) {
+            throw new IllegalArgumentException("Transaction must be greater than zero.");
+        }
+    }
 }
