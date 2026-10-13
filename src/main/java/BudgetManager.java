@@ -10,7 +10,7 @@ public class BudgetManager {
 
             while (true) {
                 IO.println("~~~~~~~~~~~~~~~~~~~~");
-                IO.println("  Budget Manager");
+                IO.println("  💅Budget Manager💅");
                 IO.println("~~~~~~~~~~~~~~~~~~~~");
                 IO.println("1. 💵Add transaction");
                 IO.println("2. 🧾Transaction history");
@@ -82,7 +82,7 @@ public class BudgetManager {
                     case "3":
                         // View balance and category summary
                         if (repository.findAll().isEmpty()) {
-                            IO.println("No transactions found. Must add transaction to view your budget summary.");
+                            IO.println("No transactions found. Must add transaction to view budget summary.");
                             break;
                         }
                         double totalIncome = calculator.calculateTotalIncome();
@@ -106,9 +106,75 @@ public class BudgetManager {
                         break;
 
 
-                        case "4":
-                            // Filter transactions
-                            break;
+                    case "4":
+                        // Filter transactions
+                        IO.println("Filter transactions:");
+                        IO.println();
+                        IO.println("1. By transaction type");
+                        IO.println("2. By category");
+                        IO.println();
+                        IO.println("Press Enter to go back.");
+
+                        String filterChoice = IO.readln();
+
+                        if (filterChoice.isBlank()) {
+                            break; //return to main menu if user chooses to back
+                        }
+
+                        switch (filterChoice) {
+                            case "1":
+                                // Display transactions grouped by type.
+                                List<Transaction> incomes = repository.findWhere(
+                                        incomeTransaction ->
+                                                incomeTransaction.type() == TransactionType.INCOME
+                                );
+
+                                List<Transaction> expenses = repository.findWhere(
+                                        expenseTransaction ->
+                                                expenseTransaction.type() == TransactionType.EXPENSE
+                                );
+
+                                IO.println("=== INCOME ===");
+                                for (Transaction incomeTransaction : incomes) {
+                                    IO.println(incomeTransaction);
+                                }
+
+                                IO.println("=== EXPENSES ===");
+                                for (Transaction expenseTransaction : expenses) {
+                                    IO.println(expenseTransaction);
+                                }
+
+                                break;
+
+                            case "2":
+                                // Filter by category, with case-insensitive input
+                                IO.println("Enter category: ");
+                                IO.println("Press Enter to go back.");
+
+                                String selectedCategory = IO.readln();
+
+                                if (selectedCategory.isBlank()) {
+                                    break;
+                                }
+                                List<Transaction> categoryMatches = repository.findWhere( //
+                                        categoryTransaction ->
+                                                categoryTransaction.category().equalsIgnoreCase(selectedCategory));
+                                if (categoryMatches.isEmpty()) {
+                                    IO.println("No transactions found for category: " + selectedCategory);
+                                } else {
+                                    for (Transaction categoryTransaction : categoryMatches) {
+                                        IO.println(categoryTransaction);
+                                    }
+                                }
+                                break;
+
+                            default:
+                                IO.println("Invalid option. Please choose 1 or 2.");
+                        }
+                        break;
+
+
+
                         case "5":
                             // Save transactions to file
                             break;
