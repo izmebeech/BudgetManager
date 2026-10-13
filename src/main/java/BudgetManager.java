@@ -30,8 +30,10 @@ public class BudgetManager {
                 switch (choice) {
                     case "1":
                         IO.print("Select transaction type:");
+                        IO.println();
                         IO.println("1. Income");
                         IO.println("2. Expense");
+                        IO.println();
                         IO.println("Choose your option: ");
                         String whatType = IO.readln();
 
@@ -64,7 +66,6 @@ public class BudgetManager {
                                 date, whatCategory, amount, type);
 
                         repository.add(transaction);
-
 
                         break;  // Exit case and let main menu loop repeat.
 
@@ -108,68 +109,73 @@ public class BudgetManager {
 
                     case "4":
                         // Filter transactions
-                        IO.println("Filter transactions:");
-                        IO.println();
-                        IO.println("1. By transaction type");
-                        IO.println("2. By category");
-                        IO.println();
-                        IO.println("Press Enter to go back.");
+                        while (true) {
+                            IO.println("Filter transactions:");
+                            IO.println();
+                            IO.println("1. By transaction type");
+                            IO.println("2. By category");
+                            IO.println();
+                            IO.println("Press Enter to return to the main menu.");
 
-                        String filterChoice = IO.readln();
+                            String filterChoice = IO.readln();
 
-                        if (filterChoice.isBlank()) {
-                            break; //return to main menu if user chooses to back
-                        }
-
-                        switch (filterChoice) {
-                            case "1":
-                                // Display transactions grouped by type.
-                                List<Transaction> incomes = repository.findWhere(
-                                        incomeTransaction ->
-                                                incomeTransaction.type() == TransactionType.INCOME
-                                );
-
-                                List<Transaction> expenses = repository.findWhere(
-                                        expenseTransaction ->
-                                                expenseTransaction.type() == TransactionType.EXPENSE
-                                );
-
-                                IO.println("=== INCOME ===");
-                                for (Transaction incomeTransaction : incomes) {
-                                    IO.println(incomeTransaction);
-                                }
-
-                                IO.println("=== EXPENSES ===");
-                                for (Transaction expenseTransaction : expenses) {
-                                    IO.println(expenseTransaction);
-                                }
-
+                            // Leave filter submenu and return to the main menu.
+                            if (filterChoice.isBlank()) {
                                 break;
+                            }
 
-                            case "2":
-                                // Filter by category, with case-insensitive input
-                                IO.println("Enter category: ");
-                                IO.println("Press Enter to go back.");
+                            switch (filterChoice) {
+                                case "1":
+                                    // Display transactions grouped by type.
+                                    List<Transaction> incomes = repository.findWhere(
+                                            incomeTransaction ->
+                                                    incomeTransaction.type() == TransactionType.INCOME);
 
-                                String selectedCategory = IO.readln();
+                                    List<Transaction> expenses = repository.findWhere(
+                                            expenseTransaction ->
+                                                    expenseTransaction.type() == TransactionType.EXPENSE);
 
-                                if (selectedCategory.isBlank()) {
-                                    break;
-                                }
-                                List<Transaction> categoryMatches = repository.findWhere( //
-                                        categoryTransaction ->
-                                                categoryTransaction.category().equalsIgnoreCase(selectedCategory));
-                                if (categoryMatches.isEmpty()) {
-                                    IO.println("No transactions found for category: " + selectedCategory);
-                                } else {
-                                    for (Transaction categoryTransaction : categoryMatches) {
-                                        IO.println(categoryTransaction);
+                                    IO.println("=== INCOME ===");
+                                    for (Transaction incomeTransaction : incomes) {
+                                        IO.println(incomeTransaction);
                                     }
-                                }
-                                break;
 
-                            default:
-                                IO.println("Invalid option. Please choose 1 or 2.");
+                                    IO.println("=== EXPENSES ===");
+                                    for (Transaction expenseTransaction : expenses) {
+                                        IO.println(expenseTransaction);
+                                    }
+                                    break;
+
+                                case "2":
+                                    // Filter transactions by category.
+                                    IO.println("Enter category:");
+                                    IO.println("Press Enter to return to filter menu.");
+
+                                    String selectedCategory = IO.readln();
+
+                                    // Return to the filter submenu if input is blank.
+                                    if (selectedCategory.isBlank()) {
+                                        break;
+                                    }
+
+                                    List<Transaction> categoryMatches = repository.findWhere(
+                                            categoryTransaction ->
+                                                    categoryTransaction.category()
+                                                            .equalsIgnoreCase(selectedCategory));
+
+                                    if (categoryMatches.isEmpty()) {
+                                        IO.println("No transactions found for category: "
+                                                + selectedCategory);
+                                    } else {
+                                        for (Transaction categoryTransaction : categoryMatches) {
+                                            IO.println(categoryTransaction);
+                                        }
+                                    }
+                                    break;
+
+                                default:
+                                    IO.println("Invalid option. Please choose 1 or 2.");
+                            }
                         }
                         break;
 
