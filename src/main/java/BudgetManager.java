@@ -37,8 +37,9 @@ public class BudgetManager {
                         IO.println("Choose your option: ");
                         String whatType = IO.readln();
 
-                        boolean validType = true;     // users choice is valid until we discover otherwise
-                        TransactionType type = null; //creates variable to store transaction type, null bc no value yet
+                        boolean validType = true;
+                        TransactionType type = null;
+
                         switch (whatType) {
                             case "1":
                                 type = TransactionType.INCOME;
@@ -46,39 +47,68 @@ public class BudgetManager {
                             case "2":
                                 type = TransactionType.EXPENSE;
                                 break;
-
-                            default: // Runs if the user enters anything other than 1 or 2.
+                            default:
                                 IO.println("Please, choose option 1 or 2.");
                                 validType = false;
                         }
-                        if (!validType) {// If the choice was invalid, stop case and return to menu.
+
+                        if (!validType){
                             break;
                         }
 
                         IO.println("Category of transaction:");
-                        String whatCategory = IO.readln();
-                        IO.println("Amount:");
-                        String whatAmount = IO.readln();
-                        double amount = Double.parseDouble(whatAmount);     //converts user input string into double
-                        LocalDateTime date = LocalDateTime.now();
+                        String whatCategory = IO.readln().trim();
 
-                        Transaction transaction = new Transaction(    //creates new transaction based on user input
-                                date, whatCategory, amount, type);
+                        if (whatCategory.isEmpty()){
+                            IO.println("Must enter category, please try again.");
+                            break;
+                        }
+
+                        boolean validAmount =false;
+                        double amount = 0;
+
+                        while (!validAmount){
+                            IO.println("Amount:");
+                            String whatAmount = IO.readln();
+
+                            //make sure user input can be only positive numbers
+                            try {
+                                amount = Double.parseDouble(whatAmount); //convert number into string
+                                if (!Double.isFinite(amount) || amount <= 0) {
+                                    IO.println("Amount added must be a positive number. Please try again.");
+                                } else {
+                                    validAmount = true;
+                                }
+                            } catch (NumberFormatException e) {
+                                IO.println("Invalid amount. Please enter a positive number.");
+                            }
+                        }
+
+                        LocalDateTime date = LocalDateTime.now();
+                        Transaction transaction = new Transaction(
+                                date, whatCategory, amount, type
+                        );
 
                         repository.add(transaction);
 
-                        break;  // Exit case and let main menu loop repeat.
+                        IO.println("Transaction added! 🎉");
+                        IO.println("Press Enter to return to the main menu.");
+                        IO.readln();
+
+                        break;
+
 
                     case "2":
                         // View transaction history
                         List<Transaction> listOfTransactions = repository.findAll();
-                        if (repository.findAll().isEmpty()) {
+                        if (listOfTransactions.isEmpty()) {
                             IO.println("No transactions found.");
                         } else
                             for (Transaction currentTransaction : listOfTransactions) { //loops through all transactions
-                                IO.println(currentTransaction);
+                                IO.println(currentTransaction.toDisplayString());
                             }
                         break;
+
 
                     case "3":
                         // View balance and category summary
@@ -137,12 +167,12 @@ public class BudgetManager {
 
                                     IO.println("=== INCOME ===");
                                     for (Transaction incomeTransaction : incomes) {
-                                        IO.println(incomeTransaction);
+                                        IO.println(incomeTransaction.toDisplayString());
                                     }
 
                                     IO.println("=== EXPENSES ===");
                                     for (Transaction expenseTransaction : expenses) {
-                                        IO.println(expenseTransaction);
+                                        IO.println(expenseTransaction.toDisplayString());
                                     }
                                     break;
 
@@ -168,7 +198,7 @@ public class BudgetManager {
                                                 + selectedCategory);
                                     } else {
                                         for (Transaction categoryTransaction : categoryMatches) {
-                                            IO.println(categoryTransaction);
+                                            IO.println(categoryTransaction.toDisplayString());
                                         }
                                     }
                                     break;

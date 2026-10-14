@@ -13,4 +13,12 @@ public record Transaction(
             throw new IllegalArgumentException("Transaction must be greater than zero.");
         }
     }
+    public String toDisplayString() {
+        return String.format(
+                "%s | %.2f kr | %s",
+                category,
+                amount,
+                date.toLocalDate()
+        );
+    }
 }
