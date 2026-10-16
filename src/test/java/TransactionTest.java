@@ -9,7 +9,7 @@ class TransactionTest {
     @Test
         void transactionInvalidIfBelowZero() {
             LocalDateTime date = LocalDateTime.now();
-        assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(InvalidTransactionException.class, () -> {
             new Transaction(
                     date, "Swish", -14, TransactionType.EXPENSE
             );
@@ -19,7 +19,7 @@ class TransactionTest {
     @Test
     void transactionInvalidIfZero() {
         LocalDateTime date = LocalDateTime.now();
-        assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(InvalidTransactionException.class, () -> {
             new Transaction(
                     date, "Swish", 0, TransactionType.EXPENSE
             );

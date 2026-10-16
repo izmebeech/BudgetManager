@@ -10,7 +10,7 @@ public record Transaction(
     //Make sure a transaction cant be 0 or below.
     public Transaction {
         if (amount <= 0) {
-            throw new IllegalArgumentException("Transaction must be greater than zero.");
+            throw new InvalidTransactionException("Transaction must be greater than zero.");
         }
     }
     public String toDisplayString() {
