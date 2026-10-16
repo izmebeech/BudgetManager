@@ -1,4 +1,5 @@
 import org.junit.jupiter.api.Test;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -10,7 +11,7 @@ class RepositoryTest {
     void findAllAndAddReturnsStoredTransaction() {
         Repository<Transaction> repository = new Repository<>();
         Transaction transaction = new Transaction(
-                LocalDateTime.of(2026,10,9,14,35),
+                LocalDateTime.of(2026, 10, 9, 14, 35),
                 "Phone bill",
                 399,
                 TransactionType.EXPENSE);
@@ -19,16 +20,16 @@ class RepositoryTest {
         List<Transaction> transactions = repository.findAll();
 
         assertEquals(1, transactions.size());
-        assertEquals(transaction, transactions.get(0));
-
-
+        assertEquals(transaction, transactions.getFirst());
     }
+
+
     //check whether the repository can distinguish between matching and non matching items
     @Test
     void findWhereReturnsOnlyMatchingTransactions() {
         Repository<Transaction> repository = new Repository<>();
         Transaction phoneBill = new Transaction(
-                LocalDateTime.of(2026,10,9,14,35),
+                LocalDateTime.of(2026, 10, 9, 14, 35),
                 "Phone bill",
                 399,
                 TransactionType.EXPENSE);
@@ -48,4 +49,35 @@ class RepositoryTest {
         assertEquals(phoneBill, result.get(0));   // said item must be the phone bill
     }
 
+    @Test
+    void findAllReturnsEmptyListWhenRepositoryIsEmpty() {
+        Repository<Transaction> repository = new Repository<>();
+        List<Transaction> transactions = repository.findAll();
+
+        assertTrue(transactions.isEmpty());
+    }
+
+    @Test
+    void findWhereReturnsEmptyListWhenNoTransactionsMatch() {
+        Repository<Transaction> repository = new Repository<>();
+        List<Transaction> result = repository.findWhere(
+                t -> t.type() == TransactionType.EXPENSE);
+
+        assertTrue(result.isEmpty());
+    }
+    @Test
+    void findAllReturnsUnmodifiableList() {
+        Repository<Transaction> repository = new Repository<>();
+        Transaction transaction = new Transaction(
+                LocalDateTime.of(2026, 10, 9, 14, 35),
+                "Phone bill",
+                399,
+                TransactionType.EXPENSE);
+
+        repository.add(transaction);
+        List<Transaction> transactions = repository.findAll();
+
+        assertThrows(UnsupportedOperationException.class, transactions::clear);
+        assertEquals(1, repository.findAll().size());
+    }
 }

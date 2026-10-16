@@ -1,6 +1,7 @@
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 public class BudgetManager {
 
@@ -48,8 +49,11 @@ public class BudgetManager {
                                 type = TransactionType.EXPENSE;
                                 break;
                             default:
+                                LOGGER.warning("Invalid transaction type selected.");
                                 IO.println("Please, choose option 1 or 2.");
                                 validType = false;
+
+                                // @TODO make sure program doesnt immediately loop back to menu, so user can read
                         }
 
                         if (!validType){
@@ -60,6 +64,7 @@ public class BudgetManager {
                         String whatCategory = IO.readln().trim();
 
                         if (whatCategory.isEmpty()){
+                            LOGGER.warning("No category selected, transaction rejected.");
                             IO.println("Must enter category, please try again.");
                             break;
                         }
@@ -71,16 +76,18 @@ public class BudgetManager {
                             IO.println("Amount:");
                             String whatAmount = IO.readln();
 
-                            //make sure user input can be only positive numbers
+                            //make sure user input is a positive number and not invalid characters
                             try {
-                                amount = Double.parseDouble(whatAmount); //convert number into string
+                                amount = Double.parseDouble(whatAmount); //convert string into double
                                 if (!Double.isFinite(amount) || amount <= 0) {
-                                    IO.println("Amount added must be a positive number. Please try again.");
+                                    LOGGER.warning("Invalid transaction amount: must be finite and greater than 0.");
+                                    IO.println("Amount added must be a greater than 0, please try again.");
                                 } else {
                                     validAmount = true;
                                 }
                             } catch (NumberFormatException e) {
-                                IO.println("Invalid amount. Please enter a positive number.");
+                                LOGGER.warning("User entered an invalid transaction amount.");
+                                IO.println("Invalid amount. Use numbers only.");
                             }
                         }
 
@@ -90,6 +97,7 @@ public class BudgetManager {
                         );
 
                         repository.add(transaction);
+                        LOGGER.info("Transaction added successfully.");
 
                         IO.println("Transaction added! 🎉");
                         IO.println("Press Enter to return to the main menu.");
@@ -132,6 +140,7 @@ public class BudgetManager {
 
                         }
                         if (totalSpending > totalIncome) {
+                            LOGGER.info("Total spending exceeds total income.");
                             IO.println("Warning!🚨 Your spending exceeds your income. Consider slowing down your spending.");
                         }
                         break;
@@ -217,4 +226,9 @@ public class BudgetManager {
                     }
                 }
             }
+
+    private static final Logger LOGGER =
+            Logger.getLogger(BudgetManager.class.getName());
+
+
         }

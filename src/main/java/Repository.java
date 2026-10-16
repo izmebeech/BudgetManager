@@ -14,7 +14,9 @@ public class Repository<T> {
     }
 
     public List<T> findAll() {
-        return items;
+        return List.copyOf(items);  //Callers can't add or remove items through the returned list.
+                                    //Changes to the returned list won't alter the repository.
+
     }
     public List <T> findWhere(Predicate<T> condition){     //when called, will give back a List<T>. So if were calling
         return items.stream()                        //transactions, it will become List<transaction>findWhere
