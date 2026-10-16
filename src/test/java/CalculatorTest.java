@@ -87,4 +87,51 @@ class CalculatorTest {
 
     }
 
+    @Test
+    void calculateBalanceReturnsZeroWhenRepositoryIsEmpty() {
+        Repository<Transaction> repository = new Repository<>();
+        Calculator calculator = new Calculator(repository);
+
+        assertEquals(0.0, calculator.calculateBalance());
+    }
+
+    @Test
+    void calculateTotalSpendingReturnsSumOfExpenses() {
+        Repository<Transaction> repository = new Repository<>();
+        Transaction salary = new Transaction(
+                LocalDateTime.of(2026, 10, 9, 9, 0),
+                "Salary",
+                30000,
+                TransactionType.INCOME);
+
+        Transaction phoneBill = new Transaction(
+                LocalDateTime.of(2026, 10, 9, 10, 0),
+                "Phone bill",
+                399,
+                TransactionType.EXPENSE);
+
+        repository.add(salary);
+        repository.add(phoneBill);
+
+        Calculator calculator = new Calculator(repository);
+        assertEquals(399.0, calculator.calculateTotalSpending(), 0.001);
+    }
+
+    @Test
+    void calculateTotalSpendingReturnsZeroWhenRepositoryIsEmpty() {
+        Repository<Transaction> repository = new Repository<>();
+        Calculator calculator = new Calculator(repository);
+
+        assertEquals(0.0, calculator.calculateTotalSpending());
+    }
+
+    @Test
+    void calculateTotalsByCategoryReturnsEmptyMapWhenRepositoryIsEmpty() {
+        Repository<Transaction> repository = new Repository<>();
+        Calculator calculator = new Calculator(repository);
+        Map<String, Double> result = calculator.calculateTotalsByCategory();
+
+        assertTrue(result.isEmpty());
+    }
+
 }

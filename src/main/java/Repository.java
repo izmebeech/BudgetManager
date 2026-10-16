@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Predicate;
 
 public class Repository<T> {
@@ -9,8 +10,9 @@ public class Repository<T> {
     public Repository() {
         items = new ArrayList<>();
     }
-    public void add(T item){     //add object of whatever current type to the collection
-        items.add(item);
+    public void add(T item){
+        Objects.requireNonNull(item);  //if item is null-> NullPointerException before it reaches .add(item).
+        items.add(item);            //add object of whatever current type to the collection
     }
 
     public List<T> findAll() {

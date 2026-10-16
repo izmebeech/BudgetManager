@@ -80,4 +80,31 @@ class RepositoryTest {
         assertThrows(UnsupportedOperationException.class, transactions::clear);
         assertEquals(1, repository.findAll().size());
     }
+
+    @Test
+    void findWhereReturnsUnmodifiableList() {
+        Repository<Transaction> repository = new Repository<>();
+        Transaction transaction = new Transaction(
+                LocalDateTime.of(2026, 10, 9, 14, 35),
+                "Phone bill",
+                399,
+                TransactionType.EXPENSE);
+
+        repository.add(transaction);
+        List<Transaction> result = repository.findWhere(
+                t -> t.type() == TransactionType.EXPENSE);
+
+        assertThrows(UnsupportedOperationException.class, result::clear);
+        assertEquals(1, repository.findAll().size());
+    }
+
+    @Test
+    void addRejectsNullItems(){
+        Repository<Transaction> repository = new Repository<>();
+
+        assertThrows(NullPointerException.class,() -> repository.add(null));
+
+
+
+    }
 }
