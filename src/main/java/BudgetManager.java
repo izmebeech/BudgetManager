@@ -106,6 +106,7 @@ public class BudgetManager {
                             IO.println(expenseTransaction.toDisplayString());
                         }
                     }
+                    pauseForUser();
                     break;
 
                 case "2":
@@ -128,11 +129,13 @@ public class BudgetManager {
                     if (categoryMatches.isEmpty()) {
                         IO.println("No transactions found for category: "
                                 + selectedCategory);
+
                     } else {
                         for (Transaction categoryTransaction : categoryMatches) {
                             IO.println(categoryTransaction.toDisplayString());
                         }
                     }
+                    pauseForUser();
                     break;
 
                 default:
@@ -163,9 +166,8 @@ public class BudgetManager {
             default:
                 LOGGER.warning("Invalid transaction type selected.");
                 IO.println("Please, choose option 1 or 2.");
+                pauseForUser();
                 validType = false;
-
-                // @TODO make sure program doesnt immediately loop back to menu, so user can read
         }
 
         if (!validType){
@@ -177,7 +179,8 @@ public class BudgetManager {
 
         if (whatCategory.isEmpty()){
             LOGGER.warning("No category selected, transaction rejected.");
-            IO.println("Must enter category, please try again.");
+            IO.println("Category cannot be empty.");
+            pauseForUser();
             return;
         }
 
@@ -193,13 +196,15 @@ public class BudgetManager {
                 amount = Double.parseDouble(whatAmount); //convert string into double
                 if (!Double.isFinite(amount) || amount <= 0) {
                     LOGGER.warning("Invalid transaction amount: must be finite and greater than 0.");
-                    IO.println("Amount added must be a greater than 0, please try again.");
+                    IO.println("Amount must be a greater than 0, please try again.");
+                    pauseForUser();
                 } else {
                     validAmount = true;
                 }
             } catch (NumberFormatException e) {
                 LOGGER.warning("User entered an invalid transaction amount.");
-                IO.println("Invalid amount. Use numbers only.");
+                IO.println("Invalid amount. Please use numbers only.");
+                pauseForUser();
             }
         }
 
@@ -212,13 +217,13 @@ public class BudgetManager {
         LOGGER.info("Transaction added successfully.");
 
         IO.println("Transaction added! 🎉");
-        IO.println("Press Enter to return to the main menu.");
-        IO.readln();
+        pauseForUser();
     }
 
     private static void balanceAndCategory(Repository<Transaction> repository, Calculator calculator) {
         if (repository.findAll().isEmpty()) {
             IO.println("No transactions found. Must add transaction to view budget summary.");
+            pauseForUser();
             return;
         }
         double totalIncome = calculator.calculateTotalIncome();
@@ -240,6 +245,7 @@ public class BudgetManager {
             LOGGER.info("Total spending exceeds total income.");
             IO.println("Warning!🚨 Your spending exceeds your income. Consider slowing down your spending.");
         }
+        pauseForUser();
     }
 
     private static void showTransactionHistory(Repository<Transaction> repository) {
@@ -250,6 +256,13 @@ public class BudgetManager {
             for (Transaction currentTransaction : listOfTransactions) { //loops through all transactions
                 IO.println(currentTransaction.toDisplayString());
             }
+        pauseForUser();
+    }
+
+    private static void pauseForUser() {
+        IO.println();
+        IO.println("Press Enter to continue.");
+        IO.readln();
     }
 
     private static final Logger LOGGER =
