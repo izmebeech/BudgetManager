@@ -215,7 +215,6 @@ public class BudgetManager {
 
         repository.add(transaction);
         LOGGER.info("Transaction added successfully.");
-
         IO.println("Transaction added! 🎉");
         pauseForUser();
     }
@@ -267,6 +266,5 @@ public class BudgetManager {
 
     private static final Logger LOGGER =
             Logger.getLogger(BudgetManager.class.getName());
-
 
         }
