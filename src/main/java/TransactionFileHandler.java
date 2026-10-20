@@ -22,7 +22,7 @@ public class TransactionFileHandler {
 
         try {
             Files.createDirectories(savePath);
-            LOGGER.info("Save directory is ready: " + savePath);
+            LOGGER.info("Save directory created: " + savePath);
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, "Could not create save directory.", e);
         }

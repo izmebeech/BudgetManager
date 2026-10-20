@@ -67,7 +67,6 @@ public class BudgetManager {
         }
     }
 
-
     private static void filterTransactions(Repository<Transaction> repository) {
         while (true) {
             IO.println("Filter transactions:");
@@ -200,7 +199,8 @@ public class BudgetManager {
 
             //make sure user input is a positive number and not invalid characters
             try {
-                amount = Double.parseDouble(whatAmount); //convert string into double
+                //convert string into double, and makes sure both comma signs work
+                amount = Double.parseDouble(whatAmount.trim().replace(',', '.'));
                 if (!Double.isFinite(amount) || amount <= 0) {
                     LOGGER.warning("Invalid transaction amount: must be finite and greater than 0.");
                     IO.println("Amount must be a greater than 0, please try again.");
