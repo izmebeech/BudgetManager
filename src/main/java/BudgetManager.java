@@ -8,58 +8,65 @@ public class BudgetManager {
     static void main() {
         Repository<Transaction> repository = new Repository<>();
         Calculator calculator = new Calculator(repository);
+        TransactionFileHandler fileHandler = new TransactionFileHandler();
+        List<Transaction> savedTransactions = fileHandler.loadTransactions(); //reads saved transactions from file
 
-            while (true) {
-                IO.println("~~~~~~~~~~~~~~~~~~~~");
-                IO.println("  💅Budget Manager💅");
-                IO.println("~~~~~~~~~~~~~~~~~~~~");
-                IO.println("1. 💵Add transaction");
-                IO.println("2. 🧾Transaction history");
-                IO.println("3. ⚖️Balance & category summary");
-                IO.println("4. 📚Filter transactions");
-                IO.println("5. 💾Save transactions to file");
-                IO.println("e. 🚪 Exit");
-                IO.println("🔙Press enter to go back in the menu");
-                IO.println();
-                IO.print("Choose an option: ");
-                String choice = IO.readln();
+        for (Transaction transaction : savedTransactions) { //adds each loaded transaction to repository
+            repository.add(transaction);
+        }
 
-                if (choice.equals("e")) {
-                    break;
-                }
+        while (true) {
+            IO.println("~~~~~~~~~~~~~~~~~~~~");
+            IO.println("  💅Budget Manager💅");
+            IO.println("~~~~~~~~~~~~~~~~~~~~");
+            IO.println("1. 💵Add transaction");
+            IO.println("2. 🧾Transaction history");
+            IO.println("3. ⚖️Balance & category summary");
+            IO.println("4. 📚Filter transactions");
+            IO.println("5. 💾Save transactions to file");
+            IO.println("e. 🚪 Exit");
+            IO.println("🔙Press enter to go back in the menu");
+            IO.println();
+            IO.print("Choose an option: ");
+            String choice = IO.readln();
 
-                switch (choice) {
-                    case "1":
-                        addTransaction(repository);
-
-                        break;
-
-
-                    case "2":
-                        // View transaction history
-                        showTransactionHistory(repository);
-                        break;
-
-
-                    case "3":
-                        // View balance and category summary
-                        balanceAndCategory(repository, calculator);
-                        break;
-
-
-                    case "4":
-                        // Filter transactions
-                        filterTransactions(repository);
-                        break;
-
-
-
-                        case "5":
-                            // Save transactions to file
-                            break;
-                    }
-                }
+            if (choice.equals("e")) {
+                break;
             }
+
+            switch (choice) {
+                case "1":
+                    addTransaction(repository);
+
+                    break;
+
+
+                case "2":
+                    // View transaction history
+                    showTransactionHistory(repository);
+                    break;
+
+
+                case "3":
+                    // View balance and category summary
+                    balanceAndCategory(repository, calculator);
+                    break;
+
+
+                case "4":
+                    // Filter transactions
+                    filterTransactions(repository);
+                    break;
+
+
+                case "5":
+                    // Save as file
+                    fileHandler.saveTransactions(repository.findAll());
+                    pauseForUser();
+            }
+        }
+    }
+
 
     private static void filterTransactions(Repository<Transaction> repository) {
         while (true) {
@@ -170,24 +177,24 @@ public class BudgetManager {
                 validType = false;
         }
 
-        if (!validType){
+        if (!validType) {
             return;
         }
 
         IO.println("Category of transaction:");
         String whatCategory = IO.readln().trim();
 
-        if (whatCategory.isEmpty()){
+        if (whatCategory.isEmpty()) {
             LOGGER.warning("No category selected, transaction rejected.");
             IO.println("Category cannot be empty.");
             pauseForUser();
             return;
         }
 
-        boolean validAmount =false;
+        boolean validAmount = false;
         double amount = 0;
 
-        while (!validAmount){
+        while (!validAmount) {
             IO.println("Amount:");
             String whatAmount = IO.readln();
 
@@ -267,4 +274,5 @@ public class BudgetManager {
     private static final Logger LOGGER =
             Logger.getLogger(BudgetManager.class.getName());
 
-        }
+
+}
