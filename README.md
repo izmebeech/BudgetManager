@@ -116,7 +116,6 @@ Applikationen använder Java Logging API (`java.util.logging`) för att logga vi
 
 Jag använder följande loggnivåer:
 
-- **`FINE`** – Används för mer detaljerad information, till exempel när en transaktion läses in från fil.
 - **`INFO`** – Används för att logga normala händelser, till exempel när transaktioner sparas eller när en transaktion registreras.
 - **`WARNING`** – Används när något oväntat inträffar men programmet kan fortsätta, till exempel vid ogiltig inmatning eller felaktigt formaterade rader i filen.
 - **`SEVERE`** – Används vid allvarligare fel, till exempel när transaktioner inte kan läsas eller sparas på grund av ett filfel.
