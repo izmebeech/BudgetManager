@@ -122,6 +122,9 @@ Jag använder följande loggnivåer:
 
 Loggnivåerna hjälper till att skilja mellan vanlig aktivitet, problem som kan hanteras och allvarligare fel. `FINE`-meddelanden kan kräva en mer detaljerad loggningskonfiguration för att visas.
 
+Jag övervägde att dölja loggmeddelandena från konsolen för att göra gränssnittet renare och mer användarvänligt. Samtidigt är loggningen användbar för att följa programmets beteende och upptäcka fel under utveckling.
+I den här versionen valde jag att behålla loggmeddelandena synliga, men jag ser att en framtida förbättring skulle kunna vara att skilja tydligare mellan meddelanden till användaren och loggar avsedda för felsökning.
+
 ## 10. Reflektion
 
 Under arbetet med labben har jag fått en bättre förståelse för hur man kan bygga upp en Java-applikation med flera klasser som har olika ansvarsområden. Jag har också fått mer erfarenhet av JUnit, filhantering, loggning och Streams. Speciellt streams tycker jag känns som ett väldigt logiskt och användbart verktyg.
