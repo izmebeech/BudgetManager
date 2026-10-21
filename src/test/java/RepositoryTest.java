@@ -21,7 +21,6 @@ class RepositoryTest {
         assertEquals(transaction, transactions.getFirst());
     }
 
-
     //check whether the repository can distinguish between matching and non matching items
     @Test
     void findWhereReturnsOnlyMatchingTransactions() {

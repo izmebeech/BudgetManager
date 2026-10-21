@@ -8,9 +8,9 @@ public class BudgetManager {
     static void main() {
         Repository<Transaction> repository = new Repository<>();
         Calculator calculator = new Calculator(repository);
+
         TransactionFileHandler fileHandler = new TransactionFileHandler();
         List<Transaction> savedTransactions = fileHandler.loadTransactions(); //reads saved transactions from file
-
         for (Transaction transaction : savedTransactions) { //adds each loaded transaction to repository
             repository.add(transaction);
         }

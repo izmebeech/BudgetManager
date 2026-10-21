@@ -4,10 +4,9 @@ public record Transaction(
         LocalDateTime date,
         String category,
         double amount,
-        TransactionType type
-) {
+        TransactionType type)
 
-    //Make sure a transaction cant be 0 or below.
+{ //Make sure a transaction cant be 0 or below.
     public Transaction {
         if (!Double.isFinite(amount)||amount <= 0) {   //rejects if amount is infinite, 0 or negative
             throw new InvalidTransactionException("Transaction must be greater than zero.");
