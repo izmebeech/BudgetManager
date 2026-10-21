@@ -1,8 +1,6 @@
 import org.junit.jupiter.api.Test;
-
 import java.time.LocalDateTime;
 import java.util.Map;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class CalculatorTest {
@@ -133,5 +131,4 @@ class CalculatorTest {
 
         assertTrue(result.isEmpty());
     }
-
 }

@@ -25,4 +25,12 @@ class TransactionTest {
             );
         });
     }
+
+    @Test
+    void transactionValidIfAmountIsPositive() {
+        LocalDateTime date = LocalDateTime.now();
+        Transaction transaction = new Transaction(
+                date, "Swish", 14, TransactionType.EXPENSE);
+        assertEquals(14, transaction.amount());
+    }
 }

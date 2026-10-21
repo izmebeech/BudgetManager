@@ -63,6 +63,11 @@ public class BudgetManager {
                     // Save as file
                     fileHandler.saveTransactions(repository.findAll());
                     pauseForUser();
+
+                default:
+                    LOGGER.warning("Invalid main menu option selected.");
+                    IO.println("Invalid option. Please choose 1–5 or e to exit.");
+                    pauseForUser();
             }
         }
     }
@@ -145,6 +150,7 @@ public class BudgetManager {
                     break;
 
                 default:
+                    LOGGER.warning("Invalid filter menu option selected.");
                     IO.println("Invalid option. Please choose 1 or 2.");
             }
         }
@@ -273,6 +279,5 @@ public class BudgetManager {
 
     private static final Logger LOGGER =
             Logger.getLogger(BudgetManager.class.getName());
-
 
 }

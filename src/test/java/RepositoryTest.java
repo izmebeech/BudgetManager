@@ -1,8 +1,6 @@
 import org.junit.jupiter.api.Test;
-
 import java.time.LocalDateTime;
 import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class RepositoryTest {
@@ -103,8 +101,6 @@ class RepositoryTest {
         Repository<Transaction> repository = new Repository<>();
 
         assertThrows(NullPointerException.class,() -> repository.add(null));
-
-
 
     }
 }
